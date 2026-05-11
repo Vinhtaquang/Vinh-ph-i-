@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đạt Tích Săn - Blog Thời Trang Nam</title>
+  <meta name="description" content="Blog tuyển chọn sản phẩm thời trang nam: áo polo, quần nam, sneaker, phụ kiện nam. Click sản phẩm để xem trên Shopee." />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .top-bar {
+      height: 52px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .top-bar h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero {
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0.46)),
+        url("https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1600&q=80") center / cover;
+      color: white;
+      padding: 42px 18px 32px;
+    }
+
+    .hero-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .avatar {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,.8);
+      background: #fff;
+    }
+
+    .profile-text h1 {
+      font-size: 26px;
+      margin: 0 0 5px;
+    }
+
+    .profile-text p {
+      margin: 0;
+      color: rgba(255,255,255,.88);
+      font-size: 14px;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 18px 18px 18px 48px;
+      font-size: 16px;
+      color: #333;
+      background: rgba(255,255,255,.96);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 17px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+      font-size: 21px;
+    }
+
+    .main-tabs {
+      background: #ffffff;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-radius: 14px 14px 0 0;
+      overflow: hidden;
+      margin-top: -14px;
+      border-bottom: 1px solid #ececec;
+    }
+
+    .main-tab {
+      text-align: center;
+      padding: 17px 8px;
+      font-weight: 700;
+      color: #333;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .main-tab.active {
+      color: #c94336;
+    }
+
+    .main-tab.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 18%;
+      right: 18%;
+      height: 2px;
+      background: #c94336;
+    }
+
+    .filters {
+      background: #fff;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+      color: #666;
+      border-bottom: 1px solid #ececec;
+    }
+
+    .filter-btn {
+      padding: 15px 4px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      color: #c94336;
+      font-weight: 700;
+    }
+
+    .category-section {
+      display: none;
+      max-width: 1120px;
+      margin: 16px auto 0;
+      padding: 0 12px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .category-card {
+      background: white;
+      padding: 18px;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .category-card:hover {
+      border-color: #c94336;
+      color: #c94336;
+    }
+
+    .products {
+      max-width: 1120px;
+      margin: 16px auto 28px;
+      padding: 0 10px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      text-decoration: none;
+      color: #222;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      transition: transform .18s ease, box-shadow .18s ease;
+      position: relative;
+      display: block;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,.14);
+    }
+
+    .discount {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 2;
+      background: #ffe7e2;
+      color: #c94336;
+      padding: 5px 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .product-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      background: #eee;
+    }
+
+    .product-info {
+      padding: 10px;
+    }
+
+    .product-title {
+      margin: 0 0 9px;
+      font-size: 14px;
+      line-height: 1.38;
+      height: 39px;
+      overflow: hidden;
+      font-weight: 400;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e84c3d;
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 5px;
+      border-radius: 2px;
+      margin-right: 4px;
+      vertical-align: 1px;
+    }
+
+    .price-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .price {
+      color: #d35400;
+      font-size: 18px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .sold {
+      color: #777;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .note {
+      max-width: 1120px;
+      margin: 0 auto 40px;
+      padding: 0 12px;
+      color: #666;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .footer {
+      background: #222;
+      color: #ddd;
+      text-align: center;
+      padding: 22px 12px;
+      font-size: 13px;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        padding: 54px 24px 38px;
+      }
+
+      .products {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .product-title {
+        font-size: 15px;
+        height: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-bar">
+    <h2>My Collection</h2>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="profile">
+        <img class="avatar" src="https://via.placeholder.com/120x120.png?text=D" alt="Avatar Đạt Tích Săn" />
+        <div class="profile-text">
+          <h1>Vinh phối đồ</h1>
+          <p>Trang tuyển chọn thời trang nam dễ mặc, dễ phối, giá hợp lý</p>
+        </div>
+      </div>
+
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input id="searchInput" type="text" placeholder="Tìm kiếm sản phẩm" oninput="searchProducts()" />
+      </div>
+    </div>
+  </section>
+
+  <nav class="main-tabs">
+    <div id="productTab" class="main-tab active" onclick="showProducts()">Sản phẩm</div>
+    <div id="categoryTab" class="main-tab" onclick="showCategories()">Danh mục</div>
+  </nav>
+
+  <section class="filters" id="filterBar">
+    <div class="filter-btn active" onclick="filterCategory('all', this)">Phổ biến</div>
+    <div class="filter-btn" onclick="filterCategory('new', this)">Mới nhất</div>
+    <div class="filter-btn" onclick="filterCategory('bestseller', this)">Bán chạy nhất</div>
+    <div class="filter-btn" onclick="sortByPrice(this)">Giá ↕</div>
+  </section>
+
+  <section id="categorySection" class="category-section">
+    <div class="category-grid">
+      <div class="category-card" onclick="filterFromCategory('ao')">Áo nam</div>
+      <div class="category-card" onclick="filterFromCategory('quan')">Quần nam</div>
+      <div class="category-card" onclick="filterFromCategory('giay')">Giày dép nam</div>
+      <div class="category-card" onclick="filterFromCategory('phu-kien')">Phụ kiện nam</div>
+    </div>
+  </section>
+
+  <main class="products" id="productGrid">
+    <a class="product-card" data-category="ao bestseller" data-price="365000" href="https://shopee.vn/YOUR-AFFILIATE-LINK-1" target="_blank" rel="nofollow sponsored noopener">
+      <span class="discount">-39%</span>
+      <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=900&q=80" alt="Áo polo nam basic" />
+      <div class="product-info">
+        <h3 class="product-title"><span class="tag">Mall</span>Áo polo nam basic form đứng, dễ phối đồ</h3>
+        <div class="price-line">
+          <div class="price">₫365.000</div>
+          <div class="sold">200k+ đã bán</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="product-card" data-category="quan bestseller" data-price="156000" href="https://shopee.vn/YOUR-AFFILIATE-LINK-2" target="_blank" rel="nofollow sponsored noopener">
+      <span class="discount">-22%</span>
+      <img src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=900&q=80" alt="Quần tây nam ống suông" />
+      <div class="product-info">
+        <h3 class="product-title"><span class="tag">Yêu thích</span>Quần tây nam ống suông, vải mềm, dáng đẹp</h3>
+        <div class="price-line">
+          <div class="price">₫156.000</div>
+          <div class="sold">90k+ đã bán</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="product-card" data-category="ao new" data-price="189000" href="https://shopee.vn/YOUR-AFFILIATE-LINK-3" target="_blank" rel="nofollow sponsored noopener">
+      <span class="discount">-17%</span>
+      <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=900&q=80" alt="Áo sơ mi nam" />
+      <div class="product-info">
+        <h3 class="product-title">Áo sơ mi nam tay dài phong cách Hàn Quốc</h3>
+        <div class="price-line">
+          <div class="price">₫189.000</div>
+          <div class="sold">35k+ đã bán</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="product-card" data-category="giay bestseller" data-price="299000" href="https://shopee.vn/YOUR-AFFILIATE-LINK-4" target="_blank" rel="nofollow sponsored noopener">
+      <span class="discount">-31%</span>
+      <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80" alt="Sneaker nam trắng" />
+      <div class="product-info">
+        <h3 class="product-title"><span class="tag">Hot</span>Sneaker nam trắng basic, dễ phối outfit hằng ngày</h3>
+        <div class="price-line">
+          <div class="price">₫299.000</div>
+          <div class="sold">61k+ đã bán</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="product-card" data-category="ao new" data-price="219000" href="https://shopee.vn/YOUR-AFFILIATE-LINK-5" target="_blank" rel="nofollow sponsored noopener">
+      <span class="discount">-54%</span>
+      <img src="https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?auto=format&fit=crop&w=900&q=80" alt="Áo khoác nam" />
+      <div class="product-info">
+        <h3 class="product-title">Áo khoác nam tối giản, hợp đi làm và đi chơi</h3>
+        <div class="price-line">
+          <div class="price">₫219.000</div>
+          <div class="sold">18k+ đã bán</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="product-card" data-category="phu-kien bestseller" data-price="99000" href="https://shopee.vn/YOUR-AFFILIATE-LINK-6" target="_blank" rel="nofollow sponsored noopener">
+      <span class="discount">-45%</span>
+      <img src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=900&q=80" alt="Ví nam da basic" />
+      <div class="product-info">
+        <h3 class="product-title">Ví nam da basic, nhỏ gọn, lịch sự</h3>
+        <div class="price-line">
+          <div class="price">₫99.000</div>
+          <div class="sold">72k+ đã bán</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="product-card" data-category="quan new" data-price="179000" href="https://shopee.vn/YOUR-AFFILIATE-LINK-7" target="_blank" rel="nofollow sponsored noopener">
+      <span class="discount">-28%</span>
+      <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=900&q=80" alt="Quần short nam" />
+      <div class="product-info">
+        <h3 class="product-title">Quần short nam mùa hè, thoải mái, dễ mặc</h3>
+        <div class="price-line">
+          <div class="price">₫179.000</div>
+          <div class="sold">24k+ đã bán</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="product-card" data-category="phu-kien" data-price="129000" href="https://shopee.vn/YOUR-AFFILIATE-LINK-8" target="_blank" rel="nofollow sponsored noopener">
+      <span class="discount">-33%</span>
+      <img src="https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=900&q=80" alt="Túi đeo chéo nam" />
+      <div class="product-info">
+        <h3 class="product-title">Túi đeo chéo nam gọn nhẹ, hợp đi chơi</h3>
+        <div class="price-line">
+          <div class="price">₫129.000</div>
+          <div class="sold">41k+ đã bán</div>
+        </div>
+      </div>
+    </a>
+  </main>
+
+  <section class="note">
+    <strong>Lưu ý:</strong> Một số liên kết trên website là liên kết tiếp thị liên kết. Khi bạn mua hàng thông qua các liên kết này, chủ website có thể nhận được hoa hồng từ nền tảng bán hàng, nhưng bạn không phải trả thêm chi phí nào.
+  </section>
+
+  <footer class="footer">
+    © 2026 Vinh phối đồ. Trang gợi ý sản phẩm thời trang nam.
+  </footer>
+
+  <script>
+    const grid = document.getElementById('productGrid');
+    const cards = Array.from(document.querySelectorAll('.product-card'));
+    let priceAsc = true;
+
+    function showProducts() {
+      document.getElementById('productTab').classList.add('active');
+      document.getElementById('categoryTab').classList.remove('active');
+      document.getElementById('filterBar').style.display = 'grid';
+      document.getElementById('categorySection').style.display = 'none';
+      document.getElementById('productGrid').style.display = 'grid';
+    }
+
+    function showCategories() {
+      document.getElementById('productTab').classList.remove('active');
+      document.getElementById('categoryTab').classList.add('active');
+      document.getElementById('filterBar').style.display = 'none';
+      document.getElementById('categorySection').style.display = 'block';
+      document.getElementById('productGrid').style.display = 'none';
+    }
+
+    function filterCategory(category, el) {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      el.classList.add('active');
+      cards.forEach(card => {
+        const match = category === 'all' || card.dataset.category.includes(category);
+        card.style.display = match ? 'block' : 'none';
+      });
+    }
+
+    function filterFromCategory(category) {
+      showProducts();
+      cards.forEach(card => {
+        card.style.display = card.dataset.category.includes(category) ? 'block' : 'none';
+      });
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    }
+
+    function sortByPrice(el) {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      el.classList.add('active');
+      const sorted = [...cards].sort((a, b) => {
+        const pa = Number(a.dataset.price);
+        const pb = Number(b.dataset.price);
+        return priceAsc ? pa - pb : pb - pa;
+      });
+      sorted.forEach(card => grid.appendChild(card));
+      priceAsc = !priceAsc;
+    }
+
+    function searchProducts() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      showProducts();
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(q) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
